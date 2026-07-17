@@ -1,0 +1,48 @@
+runtime: nodejs
+nodeVersion: "20.x"
+
+buildConfiguration:
+  frameworkPreset: other
+  branch: main
+  rootDirectory: "."
+
+buildAndOutput:
+  buildCommand: "npm run build"
+  packageManager: npm
+  outputDirectory: "dist/public"
+  entryFile: "dist/index.cjs"
+
+environmentVariables:
+  # Required
+  NODE_ENV: "production"
+  PORT: "3000"
+  
+  # Database - MUST SET IN HOSTINGER PANEL
+  DATABASE_URL: "postgresql://username:password@host:5432/hiring_hub"
+  
+  # Session security - MUST SET IN HOSTINGER PANEL
+  SESSION_SECRET: "your-secure-random-string-here"
+  
+  # Optional - Set only if you use these services
+  # GOOGLE_CLOUD_STORAGE_KEY: "your-key"
+  # STRIPE_SECRET_KEY: "your-key"
+  # SENDGRID_API_KEY: "your-key"
+  # OPENAI_API_KEY: "your-key"
+
+deploymentSettings:
+  autoRedeploy: true
+  branch: main
+  environment: production
+
+notes: |
+  This configuration file documents all required Hostinger settings for Hiring Hub.
+  
+  IMPORTANT - Set these in Hostinger Panel before deploying:
+  1. DATABASE_URL: Your PostgreSQL connection string
+  2. SESSION_SECRET: A secure random string (use: openssl rand -base64 32)
+  
+  The build process will:
+  - Install dependencies via npm
+  - Build React frontend to dist/public/
+  - Build Express server to dist/index.cjs
+  - Start the app which serves both frontend and API
